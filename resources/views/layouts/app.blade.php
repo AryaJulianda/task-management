@@ -21,6 +21,11 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ route('projects.index') }}">Projects</a>
             </li>
+            @if (auth()->user()->isAdmin())
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('users.index') }}">Users</a>
+              </li>
+            @endif
             <li class="nav-item">
               <a class="nav-link" href="{{ route('profile.edit') }}">Profile</a>
             </li>
@@ -52,6 +57,24 @@
       @yield('content')
     </div>
   </main>
+
+  <div class="modal fade" id="confirmActionModal" tabindex="-1" aria-labelledby="confirmActionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmActionModalLabel">Konfirmasi tindakan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" data-confirm-message>
+          Kamu yakin ingin melanjutkan?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-danger" data-confirm-submit>Ya, lanjutkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

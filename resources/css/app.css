@@ -32,3 +32,48 @@ body {
 .badge-status {
     text-transform: capitalize;
 }
+
+.choices__inner {
+    min-height: 3.2rem;
+    padding: 0.45rem 0.6rem;
+}
+
+.choices__list--multiple .choices__item {
+    max-width: 100%;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    line-height: 1.2;
+    padding: 0.35rem 0.6rem;
+}
+
+.choices__list--multiple .choices__item .choices__button {
+    background-image: none;
+    border-left: 0;
+    color: #0b6a75;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    float: none;
+    line-height: 1;
+    height: 1rem;
+    width: 1rem;
+    margin: 0;
+    padding: 0;
+    text-indent: -9999px;
+    overflow: hidden;
+    position: static;
+    order: 2;
+}
+
+.choices__list--multiple .choices__item .choices__button::after {
+    content: "×";
+    font-size: 1rem;
+    line-height: 1;
+    text-indent: 0;
+}
+
+.assignee-remove-btn {
+    min-width: 90px;
+}

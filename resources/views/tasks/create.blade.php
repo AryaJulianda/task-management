@@ -38,19 +38,46 @@
                 <input class="form-control" id="due_date" name="due_date" type="date" value="{{ old('due_date') }}">
               </div>
             </div>
-            <div class="mt-4">
-              <label class="form-label">Assign to</label>
-              <div class="row">
-                @forelse ($users as $user)
-                  <div class="col-md-4">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" name="assignees[]" id="assignee-{{ $user->id }}" value="{{ $user->id }}" @checked(in_array($user->id, old('assignees', [])))>
-                      <label class="form-check-label" for="assignee-{{ $user->id }}">{{ $user->name }}</label>
+            @php
+              $userMap = $users->keyBy('id');
+              $oldAssignees = old('assignees', []);
+            @endphp
+
+            <div class="mt-4" data-assignee-manager>
+              <label class="form-label" for="assignee-select">Assign to</label>
+              <div class="row g-2">
+                <div class="col-md-8">
+                  <select class="form-select js-assignee-select" id="assignee-select">
+                    <option value="">Cari user...</option>
+                    @foreach ($users as $user)
+                      <option value="{{ $user->id }}">
+                        {{ $user->name }} ({{ $user->email }})
+                      </option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="col-md-4 d-grid">
+                  <button class="btn btn-outline-dark" type="button" data-assignee-add>Assign</button>
+                </div>
+              </div>
+
+              <div class="mt-3" data-assignee-list>
+                @foreach ($oldAssignees as $assigneeId)
+                  @php
+                    $assignee = $userMap->get($assigneeId);
+                  @endphp
+                  @if ($assignee)
+                    <div class="d-flex align-items-center gap-2 mb-2" data-assignee-item data-user-id="{{ $assignee->id }}">
+                      <span class="badge text-bg-light">{{ $assignee->name }} ({{ $assignee->email }})</span>
+                      <button class="btn btn-outline-danger btn-sm assignee-remove-btn ms-auto" type="button" data-assignee-remove>Remove</button>
+                      <input type="hidden" name="assignees[]" value="{{ $assignee->id }}">
                     </div>
-                  </div>
-                @empty
-                  <p class="text-muted">Belum ada user lain untuk di-assign.</p>
-                @endforelse
+                  @endif
+                @endforeach
+
+                @if (count($oldAssignees) === 0)
+                  <p class="text-muted mb-0" data-assignee-empty>Belum ada user yang di-assign.</p>
+                @endif
               </div>
             </div>
             <div class="d-flex gap-2 mt-4">

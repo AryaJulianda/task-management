@@ -75,7 +75,7 @@
                 <strong>{{ $activity->user->name }}</strong>
                 <div class="text-muted small">{{ $activity->created_at->format('d M Y H:i') }}</div>
               </div>
-              <form method="post" action="{{ route('tasks.comments.destroy', [$project, $task, $activity]) }}">
+              <form method="post" action="{{ route('tasks.comments.destroy', [$project, $task, $activity]) }}" data-confirm="true" data-confirm-message="Hapus komentar ini?">
                 @csrf
                 @method('delete')
                 <button class="btn btn-link text-danger btn-sm" type="submit">Delete</button>

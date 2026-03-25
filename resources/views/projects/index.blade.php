@@ -19,7 +19,7 @@
             <div class="d-flex gap-2">
               <a class="btn btn-outline-dark btn-sm" href="{{ route('projects.show', $project) }}">Open</a>
               <a class="btn btn-light btn-sm" href="{{ route('projects.edit', $project) }}">Edit</a>
-              <form method="post" action="{{ route('projects.destroy', $project) }}">
+              <form method="post" action="{{ route('projects.destroy', $project) }}" data-confirm="true" data-confirm-message="Hapus project ini?">
                 @csrf
                 @method('delete')
                 <button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>

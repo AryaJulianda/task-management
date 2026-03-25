@@ -41,57 +41,12 @@
     </div>
   </div>
 
-  <div class="card app-card mb-3">
-    <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="h6 mb-0">Project members</h2>
-        @if ($isOwner)
-          <span class="text-muted small">Owner bisa menambah/hapus member</span>
-        @endif
-      </div>
-
-      @if ($isOwner)
-        <form class="row g-2 align-items-end mb-3" method="post" action="{{ route('projects.members.store', $project) }}">
-          @csrf
-          <div class="col-md-6">
-            <label class="form-label" for="member-email">Email member</label>
-            <input class="form-control" id="member-email" name="email" type="email" placeholder="user@email.com" required>
-          </div>
-          <div class="col-md-3">
-            <button class="btn btn-dark" type="submit">Add member</button>
-          </div>
-        </form>
-      @endif
-
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            <div class="fw-semibold">{{ $project->user->name }} (Owner)</div>
-            <div class="text-muted small">{{ $project->user->email }}</div>
-          </div>
-        </li>
-        @forelse ($project->members as $member)
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              <div class="fw-semibold">{{ $member->name }}</div>
-              <div class="text-muted small">{{ $member->email }}</div>
-            </div>
-            @if ($isOwner)
-              <form method="post" action="{{ route('projects.members.destroy', [$project, $member]) }}">
-                @csrf
-                @method('delete')
-                <button class="btn btn-outline-danger btn-sm" type="submit">Remove</button>
-              </form>
-            @endif
-          </li>
-        @empty
-          <li class="list-group-item text-muted">Belum ada member tambahan.</li>
-        @endforelse
-      </ul>
-    </div>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h6 mb-0">List Tasks</h2>
+    <span class="text-muted small">Total: {{ $tasks->count() }}</span>
   </div>
 
-  <div class="table-responsive">
+  <div class="table-responsive mb-3">
     <table class="table align-middle">
       <thead>
         <tr>
@@ -121,7 +76,7 @@
               <div class="d-flex justify-content-end gap-2">
                 <a class="btn btn-outline-dark btn-sm" href="{{ route('tasks.show', [$project, $task]) }}">View</a>
                 <a class="btn btn-light btn-sm" href="{{ route('tasks.edit', [$project, $task]) }}">Edit</a>
-                <form method="post" action="{{ route('tasks.destroy', [$project, $task]) }}">
+                <form method="post" action="{{ route('tasks.destroy', [$project, $task]) }}" data-confirm="true" data-confirm-message="Hapus task ini?">
                   @csrf
                   @method('delete')
                   <button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>
@@ -136,5 +91,62 @@
         @endforelse
       </tbody>
     </table>
+  </div>
+
+  <div class="card app-card">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h6 mb-0">Project members</h2>
+        @if ($isOwner)
+          <span class="text-muted small">Owner bisa menambah/hapus member</span>
+        @endif
+      </div>
+
+      @if ($isOwner)
+        <form class="row g-2 align-items-end mb-3" method="post" action="{{ route('projects.members.store', $project) }}">
+          @csrf
+          <div class="col-md-6">
+            <label class="form-label" for="member-id">Pilih member</label>
+            <select class="form-select js-member-select" id="member-id" name="member_id" required>
+              <option value="">Cari user...</option>
+              @foreach ($memberOptions as $memberOption)
+                <option value="{{ $memberOption->id }}">
+                  {{ $memberOption->name }} — {{ $memberOption->email }}
+                </option>
+              @endforeach
+            </select>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-dark" type="submit">Add member</button>
+          </div>
+        </form>
+      @endif
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fw-semibold">{{ $project->user->name }} (Owner)</div>
+            <div class="text-muted small">{{ $project->user->email }}</div>
+          </div>
+        </li>
+        @forelse ($project->members as $member)
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <div class="fw-semibold">{{ $member->name }}</div>
+              <div class="text-muted small">{{ $member->email }}</div>
+            </div>
+            @if ($isOwner)
+              <form method="post" action="{{ route('projects.members.destroy', [$project, $member]) }}" data-confirm="true" data-confirm-message="Remove member ini dari project?">
+                @csrf
+                @method('delete')
+                <button class="btn btn-outline-danger btn-sm" type="submit">Remove</button>
+              </form>
+            @endif
+          </li>
+        @empty
+          <li class="list-group-item text-muted">Belum ada member tambahan.</li>
+        @endforelse
+      </ul>
+    </div>
   </div>
 @endsection

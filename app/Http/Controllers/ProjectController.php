@@ -65,11 +65,17 @@ class ProjectController extends Controller
             $tasksQuery->where('priority', $filters['priority']);
         }
 
+        $memberOptions = User::query()
+            ->whereNotIn('id', $project->members->pluck('id')->push($project->user_id))
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
+
         return view('projects.show', [
             'project' => $project,
             'tasks' => $tasksQuery->get(),
             'filters' => $filters,
             'isOwner' => $isOwner,
+            'memberOptions' => $memberOptions,
         ]);
     }
 
@@ -110,10 +116,10 @@ class ProjectController extends Controller
         $this->authorizeOwner($request, $project);
 
         $validated = $request->validate([
-            'email' => ['required', 'string', 'email', 'exists:users,email'],
+            'member_id' => ['required', 'uuid', 'exists:users,id'],
         ]);
 
-        $member = User::where('email', $validated['email'])->firstOrFail();
+        $member = User::findOrFail($validated['member_id']);
 
         if ($member->id === $project->user_id) {
             return redirect()
