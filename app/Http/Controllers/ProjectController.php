@@ -12,7 +12,14 @@ class ProjectController extends Controller
 {
     public function index(Request $request): View
     {
-        $userId = $request->user()->id;
+        $user = $request->user();
+        $userId = $user->id;
+
+        if ($user->isAdmin()) {
+            return view('projects.index', [
+                'projects' => Project::query()->latest()->get(),
+            ]);
+        }
 
         $projects = Project::query()
             ->where('user_id', $userId)
@@ -151,7 +158,12 @@ class ProjectController extends Controller
 
     private function authorizeProject(Request $request, Project $project): void
     {
-        $userId = $request->user()->id;
+        $user = $request->user();
+        $userId = $user->id;
+
+        if ($user->isAdmin()) {
+            return;
+        }
 
         if ($project->user_id === $userId) {
             return;
@@ -162,6 +174,10 @@ class ProjectController extends Controller
 
     private function authorizeOwner(Request $request, Project $project): void
     {
+        if ($request->user()->isAdmin()) {
+            return;
+        }
+
         abort_unless($project->user_id === $request->user()->id, 403);
     }
 }

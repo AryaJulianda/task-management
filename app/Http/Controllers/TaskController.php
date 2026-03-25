@@ -126,7 +126,12 @@ class TaskController extends Controller
 
     private function authorizeProject(Request $request, Project $project): void
     {
-        $userId = $request->user()->id;
+        $user = $request->user();
+        $userId = $user->id;
+
+        if ($user->isAdmin()) {
+            return;
+        }
 
         if ($project->user_id === $userId) {
             return;
