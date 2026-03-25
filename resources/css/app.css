@@ -1,0 +1,34 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+    --app-bg: #f6f4f1;
+    --app-dark: #1f1a17;
+    --app-accent: #d16b2f;
+}
+
+body {
+    background-color: var(--app-bg);
+    color: var(--app-dark);
+}
+
+.app-navbar {
+    background: linear-gradient(135deg, #fff7ef 0%, #f1e7dc 100%);
+}
+
+.app-card {
+    border: 0;
+    box-shadow: 0 10px 30px rgba(31, 26, 23, 0.08);
+}
+
+.app-hero {
+    background: radial-gradient(
+        circle at top left,
+        #f8efe6,
+        #f6f4f1 50%,
+        #efe3d7 100%
+    );
+}
+
+.badge-status {
+    text-transform: capitalize;
+}
