@@ -1,6 +1,6 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2-fpm
 
-RUN apk update && apk add --no-cache \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     nodejs \
@@ -9,20 +9,21 @@ RUN apk update && apk add --no-cache \
     libxml2-dev \
     zip \
     unzip \
-    oniguruma-dev \
+    libonig-dev \
     libzip-dev \
-    freetype-dev \
-    libjpeg-turbo-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
     libwebp-dev \
-    icu-dev \
-    postgresql-dev \
+    libicu-dev \
+    libpq-dev \
     ffmpeg \
     bash \
-    build-base \
-    zlib-dev \
+    build-essential \
+    zlib1g-dev \
     autoconf \
+    pkg-config \
     php-pear \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) \
@@ -35,7 +36,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
         zip \
         intl \
         opcache \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
