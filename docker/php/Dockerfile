@@ -22,7 +22,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     autoconf \
     pkg-config \
-    php-pear \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
