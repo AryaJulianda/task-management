@@ -29,4 +29,3 @@ echo "🗄 Running database migration..."
 docker exec -it task_management_web php artisan migrate --force
 
 echo "✅ Setup completed!"
-echo "🌍 Access app at: http://localhost:8000"
