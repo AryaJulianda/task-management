@@ -62,8 +62,16 @@
         @forelse ($tasks as $task)
           <tr>
             <td class="fw-semibold">{{ $task->title }}</td>
-            <td><span class="badge bg-secondary badge-status">{{ str_replace('_', ' ', $task->status) }}</span></td>
-            <td><span class="badge bg-light text-dark badge-status">{{ $task->priority }}</span></td>
+            <td>
+              <span class="badge badge-status badge-status-{{ str_replace('_', '-', $task->status) }}">
+                {{ str_replace('_', ' ', $task->status) }}
+              </span>
+            </td>
+            <td>
+              <span class="badge badge-priority badge-priority-{{ $task->priority }}">
+                {{ $task->priority }}
+              </span>
+            </td>
             <td>{{ $task->due_date?->format('d M Y') ?: '-' }}</td>
             <td>
               @if ($task->assignees->isEmpty())

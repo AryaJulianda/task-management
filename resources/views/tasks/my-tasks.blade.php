@@ -18,13 +18,17 @@
                 <h2 class="h6 mb-1">{{ $task->title }}</h2>
                 <div class="text-muted small">{{ $task->project?->name ?: 'Project tidak ditemukan' }}</div>
               </div>
-              <span class="badge text-bg-light text-capitalize">{{ str_replace('_', ' ', $task->status) }}</span>
+              <span class="badge badge-status badge-status-{{ str_replace('_', '-', $task->status) }}">
+                {{ str_replace('_', ' ', $task->status) }}
+              </span>
             </div>
             <p class="text-muted mt-2 mb-3">{{ $task->description ?: 'No description yet.' }}</p>
             <div class="d-flex flex-wrap gap-3 small text-muted">
               <div>
                 Priority
-                <span class="text-capitalize fw-semibold text-dark">{{ $task->priority }}</span>
+                <span class="badge badge-priority badge-priority-{{ $task->priority }}">
+                  {{ $task->priority }}
+                </span>
               </div>
               <div>
                 Due
