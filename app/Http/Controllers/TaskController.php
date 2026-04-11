@@ -11,6 +11,22 @@ use Illuminate\View\View;
 
 class TaskController extends Controller
 {
+    public function myTasks(Request $request): View
+    {
+        $userId = $request->user()->id;
+
+        $tasks = Task::query()
+            ->with('project')
+            ->whereHas('assignees', fn($query) => $query->where('users.id', $userId))
+            ->orderByRaw("case priority when 'high' then 1 when 'medium' then 2 when 'low' then 3 else 4 end")
+            ->orderByRaw('case when due_date is null then 1 else 0 end')
+            ->orderBy('due_date')
+            ->get();
+
+        return view('tasks.my-tasks', [
+            'tasks' => $tasks,
+        ]);
+    }
     public function create(Request $request, Project $project): View
     {
         $this->authorizeProject($request, $project);

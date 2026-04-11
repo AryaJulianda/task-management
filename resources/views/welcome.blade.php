@@ -4,7 +4,7 @@
   <section class="app-hero rounded-4 p-4 p-md-5">
     <div class="row align-items-center">
       <div class="col-lg-7">
-        <h1 class="display-6 fw-semibold mb-3">BPKH Task Management</h1>
+        <h1 class="display-6 fw-semibold mb-3">Task Management</h1>
         <p class="lead text-muted">
           Kelola project, task, dan komentar tim dengan cepat. MVP siap dipakai untuk tracking status, prioritas,
           dan deadline task.

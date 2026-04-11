@@ -4,14 +4,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BPKH Task Management</title>
+  <title>Task Management</title>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg app-navbar navbar-light border-bottom">
     <div class="container">
-      <a class="navbar-brand fw-semibold" href="{{ route('home') }}">BPKH Task Management</a>
+      <a class="navbar-brand fw-semibold" href="{{ route('home') }}">Task Management</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#appNavbar" aria-controls="appNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -20,6 +20,9 @@
           @auth
             <li class="nav-item">
               <a class="nav-link" href="{{ route('projects.index') }}">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('tasks.mine') }}">My Tasks</a>
             </li>
             @if (auth()->user()->isAdmin())
               <li class="nav-item">
