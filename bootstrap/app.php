@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Request;
 use App\Http\Middleware\AdminRole;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(
             at: '*',
-            headers: Request::HEADER_X_FORWARDED_ALL
+            headers: Request::HEADER_X_FORWARDED_ALL,
         );
         $middleware->alias([
             'admin' => AdminRole::class,
